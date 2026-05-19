@@ -1,4 +1,4 @@
-# LeatherCraft — Premium MERN Leather Marketplace
+# The Tannery India — Premium MERN Leather Marketplace
 
 > A premium custom leather goods marketplace built with React (Vite), Express, Node.js, and MongoDB (MERN). Sellers upload leather product templates, generate custom printed designs via a canvas-based Design Studio, and list them for sale. Customers browse the catalog, place orders, and pay securely via Stripe. Admins moderate listings and track revenue.
 
