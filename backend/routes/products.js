@@ -6,13 +6,14 @@ import { fileURLToPath } from 'url';
 import Product from '../models/Product.js';
 import Design from '../models/Design.js';
 import { protect } from '../middleware/auth.js';
+import { uploadToCloudinary, deleteFromCloudinary } from '../config/cloudinary.js';
 
 const router = express.Router();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Multer Storage Configuration
+// Multer Storage Configuration (Temporary local storage)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const dir = path.join(__dirname, '../public/storage/leather/products');
@@ -76,8 +77,21 @@ router.post('/product/upload', protect, upload.single('image'), async (req, res)
       return res.status(422).json({ message: 'Validation failed: Category is required.' });
     }
 
-    // Build absolute public asset URL
-    const fileUrl = `${req.protocol}://${req.get('host')}/storage/leather/products/${req.file.filename}`;
+    // Upload to Cloudinary
+    let fileUrl;
+    try {
+      const cloudinaryResult = await uploadToCloudinary(req.file.path, 'leather/products');
+      fileUrl = cloudinaryResult.secure_url;
+      // Clean up temp file
+      if (fs.existsSync(req.file.path)) {
+        fs.unlinkSync(req.file.path);
+      }
+    } catch (uploadError) {
+      if (fs.existsSync(req.file.path)) {
+        fs.unlinkSync(req.file.path);
+      }
+      return res.status(500).json({ message: 'Cloudinary upload failed: ' + uploadError.message });
+    }
 
     const product = await Product.create({
       user: req.user._id,
@@ -94,7 +108,7 @@ router.post('/product/upload', protect, upload.single('image'), async (req, res)
         created_at: product.createdAt,
         updated_at: product.updatedAt
       },
-      storage_provider: 'local'
+      storage_provider: 'cloudinary'
     });
   } catch (error) {
     res.status(500).json({ message: 'Product upload failed: ' + error.message });
@@ -119,15 +133,20 @@ router.delete('/products/:id', protect, async (req, res) => {
     // Find and delete all designs associated with this product
     const designs = await Design.find({ product: product._id });
 
-    // Helper to delete local files from storage
-    const deleteLocalFile = (url) => {
+    // Helper to delete files (supports both local and Cloudinary)
+    const deleteFile = async (url) => {
+      if (!url) return;
       try {
-        const parts = url.split('/storage/');
-        if (parts.length > 1) {
-          const relativePath = parts[1];
-          const absolutePath = path.join(__dirname, '../public/storage', relativePath);
-          if (fs.existsSync(absolutePath)) {
-            fs.unlinkSync(absolutePath);
+        if (url.includes('res.cloudinary.com')) {
+          await deleteFromCloudinary(url);
+        } else {
+          const parts = url.split('/storage/');
+          if (parts.length > 1) {
+            const relativePath = parts[1];
+            const absolutePath = path.join(__dirname, '../public/storage', relativePath);
+            if (fs.existsSync(absolutePath)) {
+              fs.unlinkSync(absolutePath);
+            }
           }
         }
       } catch (err) {
@@ -137,12 +156,12 @@ router.delete('/products/:id', protect, async (req, res) => {
 
     // Delete designs physical files
     for (const design of designs) {
-      deleteLocalFile(design.ai_image);
+      await deleteFile(design.ai_image);
       await Design.findByIdAndDelete(design._id);
     }
 
     // Delete base product physical file
-    deleteLocalFile(product.image_url);
+    await deleteFile(product.image_url);
 
     // Delete from database
     await Product.findByIdAndDelete(product._id);

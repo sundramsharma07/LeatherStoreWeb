@@ -7,6 +7,7 @@ import Design from '../models/Design.js';
 import Product from '../models/Product.js';
 import ListedProduct from '../models/ListedProduct.js';
 import { protect } from '../middleware/auth.js';
+import { uploadToCloudinary, deleteFromCloudinary } from '../config/cloudinary.js';
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const designStorageDir = path.join(__dirname, '../storage/app/public/leather/designs');
 
-// Multer Storage Configuration for Designs
+// Multer Storage Configuration for Designs (Temporary local storage)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     fs.mkdirSync(designStorageDir, { recursive: true });
@@ -97,7 +98,21 @@ router.post('/design/save', protect, upload.single('design_image'), async (req, 
       }
     }
 
-    const fileUrl = `${req.protocol}://${req.get('host')}/storage/leather/designs/${req.file.filename}`;
+    // Upload to Cloudinary
+    let fileUrl;
+    try {
+      const cloudinaryResult = await uploadToCloudinary(req.file.path, 'leather/designs');
+      fileUrl = cloudinaryResult.secure_url;
+      // Clean up temp file
+      if (fs.existsSync(req.file.path)) {
+        fs.unlinkSync(req.file.path);
+      }
+    } catch (uploadError) {
+      if (fs.existsSync(req.file.path)) {
+        fs.unlinkSync(req.file.path);
+      }
+      return res.status(500).json({ message: 'Cloudinary upload failed: ' + uploadError.message });
+    }
 
     const designPayload = {
       user: req.user._id,
@@ -148,14 +163,18 @@ router.delete('/design/:id', protect, async (req, res) => {
       return res.status(403).json({ message: 'Unauthorized action.' });
     }
 
-    // Delete file
+    // Delete file from Cloudinary or local storage
     try {
-      const parts = design.ai_image.split('/storage/');
-      if (parts.length > 1) {
-        const relativePath = parts[1];
-        const absolutePath = path.join(__dirname, '../public/storage', relativePath);
-        if (fs.existsSync(absolutePath)) {
-          fs.unlinkSync(absolutePath);
+      if (design.ai_image.includes('res.cloudinary.com')) {
+        await deleteFromCloudinary(design.ai_image);
+      } else {
+        const parts = design.ai_image.split('/storage/');
+        if (parts.length > 1) {
+          const relativePath = parts[1];
+          const absolutePath = path.join(__dirname, '../public/storage', relativePath);
+          if (fs.existsSync(absolutePath)) {
+            fs.unlinkSync(absolutePath);
+          }
         }
       }
     } catch (e) {
