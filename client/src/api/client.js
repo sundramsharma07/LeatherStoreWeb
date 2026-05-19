@@ -11,10 +11,15 @@ const api = axios.create({
 const replaceLocalhostUrls = (data, backendRoot) => {
   if (!data) return data
   if (typeof data === 'string') {
-    if (data.includes('localhost:8000') || data.includes('127.0.0.1:8000')) {
-      return data.replace(/^http:\/\/(localhost|127\.0\.0\.1):8000/, backendRoot)
+    let url = data
+    if (url.includes('localhost:8000') || url.includes('127.0.0.1:8000')) {
+      url = url.replace(/^http:\/\/(localhost|127\.0\.0\.1):8000/, backendRoot)
     }
-    return data
+    // Upgrade http to https in production to prevent Mixed Content warnings
+    if (window.location.protocol === 'https:' && url.startsWith('http://')) {
+      url = url.replace(/^http:\/\//, 'https://')
+    }
+    return url
   }
   if (Array.isArray(data)) {
     return data.map(item => replaceLocalhostUrls(item, backendRoot))

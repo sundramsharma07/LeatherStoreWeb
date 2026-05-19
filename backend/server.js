@@ -23,6 +23,7 @@ const __dirname = path.dirname(__filename);
 const storageRoot = path.join(__dirname, 'storage/app/public');
 
 const app = express();
+app.set('trust proxy', true);
 
 const allowedOrigins = [
   'http://localhost:5173',
