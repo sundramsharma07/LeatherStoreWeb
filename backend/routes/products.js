@@ -87,6 +87,7 @@ router.post('/product/upload', protect, upload.single('image'), async (req, res)
         fs.unlinkSync(req.file.path);
       }
     } catch (uploadError) {
+      console.error('[product/upload] Cloudinary upload error:', uploadError);
       if (fs.existsSync(req.file.path)) {
         fs.unlinkSync(req.file.path);
       }

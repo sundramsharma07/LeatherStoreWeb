@@ -108,6 +108,7 @@ router.post('/design/save', protect, upload.single('design_image'), async (req, 
         fs.unlinkSync(req.file.path);
       }
     } catch (uploadError) {
+      console.error('[design/save] Cloudinary upload error:', uploadError);
       if (fs.existsSync(req.file.path)) {
         fs.unlinkSync(req.file.path);
       }
