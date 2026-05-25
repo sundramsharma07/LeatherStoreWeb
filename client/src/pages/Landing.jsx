@@ -11,49 +11,6 @@ export default function Landing() {
   const [hoveredCategory, setHoveredCategory] = useState(null)
   
   const [searchQuery, setSearchQuery] = useState('')
-  const [typewriterPlaceholder, setTypewriterPlaceholder] = useState('Search our catalog...')
-
-  useEffect(() => {
-    const placeholders = [
-      'Search bags...',
-      'Search seats...',
-      'Search jackets...',
-      'Search key fobs...',
-      'Search accessories...',
-      'Search our catalog...'
-    ]
-    let currentIdx = 0
-    let charIdx = 0
-    let isDeleting = false
-    let timer
-
-    const type = () => {
-      const fullText = placeholders[currentIdx]
-      if (!isDeleting) {
-        setTypewriterPlaceholder(fullText.substring(0, charIdx + 1))
-        charIdx++
-        if (charIdx === fullText.length) {
-          isDeleting = true
-          timer = setTimeout(type, 1500)
-        } else {
-          timer = setTimeout(type, 80)
-        }
-      } else {
-        setTypewriterPlaceholder(fullText.substring(0, charIdx - 1))
-        charIdx--
-        if (charIdx === 0) {
-          isDeleting = false
-          currentIdx = (currentIdx + 1) % placeholders.length
-          timer = setTimeout(type, 300)
-        } else {
-          timer = setTimeout(type, 40)
-        }
-      }
-    }
-
-    type()
-    return () => clearTimeout(timer)
-  }, [])
 
 
   const handleSearchChange = (val) => {
@@ -654,7 +611,7 @@ export default function Landing() {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % t.slides.length)
-    }, 4500)
+    }, 8000)
     return () => clearInterval(timer)
   }, [t.slides.length])
 
@@ -805,34 +762,7 @@ export default function Landing() {
         </div>
 
         {/* Right Search Input Box */}
-        <div className="flex items-center rounded overflow-hidden border border-gray-200 bg-white relative">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            placeholder={typewriterPlaceholder}
-            className="px-3 py-1.5 text-[10px] font-semibold outline-none w-48 text-[#4A4640] placeholder:text-gray-400"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="absolute right-9 text-gray-400 hover:text-walnut p-1"
-            >
-              <X size={10} />
-            </button>
-          )}
-          <button
-            onClick={() => {
-              const catalogSection = document.getElementById('product-catalog')
-              if (catalogSection) {
-                catalogSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
-              }
-            }}
-            className="bg-[#f0f0ee] border-l border-gray-200 hover:bg-[#e2e2df] px-3.5 py-2 flex items-center justify-center text-gray-500 transition-colors cursor-pointer"
-          >
-            <Search size={11} />
-          </button>
-        </div>
+        <TypewriterSearchInput searchQuery={searchQuery} onSearchChange={handleSearchChange} setSearchQuery={setSearchQuery} />
 
         {/* Absolute Hover Dropdown Mega Menu */}
         {hoveredCategory && (
@@ -931,16 +861,21 @@ export default function Landing() {
           <div className="absolute inset-0 w-full h-full flex items-center">
             {/* Photo on right side */}
             <div className="absolute right-0 top-0 bottom-0 w-1/2 h-full">
-              <img
-                src={slides[activeSlide].img}
-                alt="Model Leather Fashion walking"
-                className="w-full h-full object-cover object-left"
-              />
-              <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-[#FAF7F2] to-transparent pointer-events-none" />
+              {slides.map((slide, idx) => (
+                <img
+                  key={idx}
+                  src={slide.img}
+                  alt={`Model Leather Fashion walking ${idx}`}
+                  className={`absolute inset-0 w-full h-full object-cover object-left transition-opacity duration-1000 ease-in-out ${
+                    idx === activeSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  }`}
+                />
+              ))}
+              <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-[#FAF7F2] to-transparent pointer-events-none z-20" />
             </div>
 
             {/* Localized typography details */}
-            <div className="max-w-7xl mx-auto w-full px-8 md:px-16 relative z-20 flex flex-col items-start space-y-3 md:space-y-4">
+            <div key={activeSlide} className="max-w-7xl mx-auto w-full px-8 md:px-16 relative z-20 flex flex-col items-start space-y-3 md:space-y-4 animate-in fade-in duration-1000 slide-in-from-bottom-2">
               <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.25em] text-[#9c6a46] block animate-pulse">
                 {t.slides[activeSlide].subtitle}
               </span>
@@ -1249,6 +1184,83 @@ export default function Landing() {
         </div>
       )}
 
+    </div>
+  )
+}
+
+function TypewriterSearchInput({ searchQuery, onSearchChange, setSearchQuery }) {
+  const [typewriterPlaceholder, setTypewriterPlaceholder] = useState('Search our catalog...')
+
+  useEffect(() => {
+    const placeholders = [
+      'Search bags...',
+      'Search seats...',
+      'Search jackets...',
+      'Search key fobs...',
+      'Search accessories...',
+      'Search our catalog...'
+    ]
+    let currentIdx = 0
+    let charIdx = 0
+    let isDeleting = false
+    let timer
+
+    const type = () => {
+      const fullText = placeholders[currentIdx]
+      if (!isDeleting) {
+        setTypewriterPlaceholder(fullText.substring(0, charIdx + 1))
+        charIdx++
+        if (charIdx === fullText.length) {
+          isDeleting = true
+          timer = setTimeout(type, 1500)
+        } else {
+          timer = setTimeout(type, 80)
+        }
+      } else {
+        setTypewriterPlaceholder(fullText.substring(0, charIdx - 1))
+        charIdx--
+        if (charIdx === 0) {
+          isDeleting = false
+          currentIdx = (currentIdx + 1) % placeholders.length
+          timer = setTimeout(type, 300)
+        } else {
+          timer = setTimeout(type, 40)
+        }
+      }
+    }
+
+    type()
+    return () => clearTimeout(timer)
+  }, [])
+
+  return (
+    <div className="flex items-center rounded overflow-hidden border border-gray-200 bg-white relative">
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={(e) => onSearchChange(e.target.value)}
+        placeholder={typewriterPlaceholder}
+        className="px-3 py-1.5 text-[10px] font-semibold outline-none w-48 text-[#4A4640] placeholder:text-gray-400"
+      />
+      {searchQuery && (
+        <button
+          onClick={() => setSearchQuery('')}
+          className="absolute right-9 text-gray-400 hover:text-walnut p-1"
+        >
+          <X size={10} />
+        </button>
+      )}
+      <button
+        onClick={() => {
+          const catalogSection = document.getElementById('product-catalog')
+          if (catalogSection) {
+            catalogSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }
+        }}
+        className="bg-[#f0f0ee] border-l border-gray-200 hover:bg-[#e2e2df] px-3.5 py-2 flex items-center justify-center text-gray-500 transition-colors cursor-pointer"
+      >
+        <Search size={11} />
+      </button>
     </div>
   )
 }

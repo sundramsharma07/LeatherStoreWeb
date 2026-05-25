@@ -41,6 +41,14 @@ export default function Register() {
     <div className="min-h-screen bg-[#E5ECE5] flex items-center justify-center p-4 md:p-8 font-sans">
       <div className="w-full max-w-5xl bg-[#FCFBF7] rounded-[1.5rem] border border-[#eae1d8]/40 shadow-[0_30px_70px_rgba(74,80,74,0.12)] overflow-hidden grid md:grid-cols-2 relative">
         
+        <button 
+          type="button"
+          onClick={() => navigate('/')}
+          className="absolute top-4 right-4 md:top-6 md:right-6 z-20 h-10 w-10 bg-black/5 hover:bg-black/10 md:bg-white/10 md:hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-[#3E3A35] md:text-white transition-all cursor-pointer border border-[#EBE6DD]/20 md:border-white/10"
+        >
+          <X size={18} />
+        </button>
+
         <div className="hidden md:block p-0 relative h-full">
           <img 
             src="/login_visual.png" 

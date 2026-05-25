@@ -58,7 +58,14 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FAF7F2] via-[#F3ECE5] to-[#E5DACF] flex items-center justify-center p-4 md:p-8 font-sans">
       <div className="w-full max-w-5xl bg-white/95 backdrop-blur-md rounded-[2rem] border border-[#eae1d8]/65 shadow-[0_30px_80px_rgba(78,26,18,0.08)] overflow-hidden grid md:grid-cols-2 relative">
-        
+        <button 
+          type="button"
+          onClick={() => navigate('/')}
+          className="absolute top-4 right-4 md:top-6 md:right-6 z-20 h-10 w-10 bg-black/5 hover:bg-black/10 md:bg-black/25 md:hover:bg-black/60 backdrop-blur-md rounded-full flex items-center justify-center text-walnut md:text-white transition-all cursor-pointer border border-sand/20 md:border-white/10"
+        >
+          <X size={18} />
+        </button>
+
         {/* Left Side: Form Panel */}
         <div className="p-8 sm:p-12 md:p-14 flex flex-col justify-between space-y-6">
           
@@ -203,14 +210,6 @@ export default function Register() {
             alt="Bespoke luxury leather stitch still-life" 
             className="w-full h-full object-cover min-h-[580px] brightness-[0.85]"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/15 pointer-events-none"></div>
-          <button 
-            type="button"
-            onClick={() => navigate('/')}
-            className="absolute top-6 right-6 h-10 w-10 bg-black/25 hover:bg-black/60 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-all cursor-pointer border border-white/10"
-          >
-            <X size={18} />
-          </button>
         </div>
 
       </div>

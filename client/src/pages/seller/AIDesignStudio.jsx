@@ -1217,33 +1217,49 @@ export default function AIDesignStudio() {
                   </div>
                 </div>
 
-                {/* Advanced Preset Clipart & Custom Stamps */}
+                {/* Hardware & Fasteners */}
                 <div className="border-2 border-sand/40 rounded-xl p-3 sm:p-4 bg-ivory/10 shadow-sm space-y-3">
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between border-b border-sand/40 pb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-walnut">Premium Clipart & Branding Seals</span>
-                    <span className="text-[9px] font-semibold text-terracotta">Click to Stamp on Canvas</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-walnut">Hardware & Fasteners</span>
+                    <span className="text-[9px] font-semibold text-terracotta">Click to place hardware</span>
                   </div>
                   <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-8 gap-2">
                     {[
-                      { name: 'Imperial Crown', symbol: '👑', font: 'Georgia' },
-                      { name: 'Royal Eagle', symbol: '🦅', font: 'Georgia' },
-                      { name: 'Artisan Shield', symbol: '🛡️', font: 'Georgia' },
-                      { name: 'Luxury Diamond', symbol: '💎', font: 'Georgia' },
-                      { name: 'Craft Star', symbol: '⭐', font: 'Georgia' },
-                      { name: 'Compass Seal', symbol: '🧭', font: 'Georgia' },
-                      { name: 'Authentic Stamp', symbol: '⚜️', font: 'Georgia' },
-                      { name: 'Kanpur Anchor', symbol: '⚓', font: 'Georgia' },
-                    ].map(clipart => (
+                      { name: 'Brass Buckle', symbol: '🧲', font: 'Arial' },
+                      { name: 'Silver Rivet', symbol: '🔘', font: 'Arial' },
+                      { name: 'Gold Stud', symbol: '🔅', font: 'Arial' },
+                      { name: 'Zippers', symbol: '🗜️', font: 'Arial' },
+                      { name: 'D-Ring', symbol: '🔗', font: 'Arial' },
+                      { name: 'Snap Button', symbol: '⏺️', font: 'Arial' },
+                      { name: 'Eyelet', symbol: '⭕', font: 'Arial' },
+                      { name: 'Hook', symbol: '🪝', font: 'Arial' },
+                    ].map(hardware => (
                       <button
-                        key={clipart.name}
-                        onClick={() => addClipart(clipart)}
+                        key={hardware.name}
+                        onClick={() => addClipart(hardware)}
                         className="flex flex-col items-center justify-center p-2.5 bg-white border border-sand hover:border-terracotta hover:bg-terracotta/5 rounded-xl transition-all shadow-sm group hover:scale-105"
-                        title={`Stamp ${clipart.name}`}
+                        title={`Add ${hardware.name}`}
                       >
-                        <span className="text-2xl filter drop-shadow-sm group-hover:scale-110 transition-transform">{clipart.symbol}</span>
-                        <span className="text-[7px] font-bold text-walnut/50 uppercase tracking-tight text-center mt-1 truncate w-full">{clipart.name.split(' ')[1] || clipart.name}</span>
+                        <span className="text-2xl filter drop-shadow-sm group-hover:scale-110 transition-transform">{hardware.symbol}</span>
+                        <span className="text-[7px] font-bold text-walnut/50 uppercase tracking-tight text-center mt-1 truncate w-full">{hardware.name}</span>
                       </button>
                     ))}
+                  </div>
+                </div>
+
+                {/* Embossing & Engraving */}
+                <div className="border-2 border-sand/40 rounded-xl p-3 sm:p-4 bg-ivory/10 shadow-sm space-y-3">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between border-b border-sand/40 pb-2">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-walnut">Embossing & Engraving</span>
+                    <span className="text-[9px] font-semibold text-terracotta">Add debossed text/stamps</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                     <button onClick={() => { addText(); setTimeout(() => { if (canvas?.getActiveObject()) { canvas.getActiveObject().set({ fill: '#5c3a21', shadow: new window.fabric.Shadow({ color: 'rgba(0,0,0,0.6)', blur: 2, offsetX: 1, offsetY: 1 }) }); canvas.renderAll(); setUpdateTrigger(p => p+1); } }, 100) }} className="flex items-center justify-center gap-2.5 rounded-xl border-2 border-sand px-4 py-3 text-sm font-bold text-walnut hover:bg-walnut hover:text-white hover:border-walnut transition-all shadow-sm group">
+                       <Type size={16} className="text-terracotta group-hover:text-white" /> Deep Emboss Text
+                     </button>
+                     <button onClick={() => { addText(); setTimeout(() => { if (canvas?.getActiveObject()) { canvas.getActiveObject().set({ fill: '#d4af37', shadow: new window.fabric.Shadow({ color: 'rgba(0,0,0,0.3)', blur: 4, offsetX: 2, offsetY: 2 }) }); canvas.renderAll(); setUpdateTrigger(p => p+1); } }, 100) }} className="flex items-center justify-center gap-2.5 rounded-xl border-2 border-sand px-4 py-3 text-sm font-bold text-walnut hover:bg-walnut hover:text-white hover:border-walnut transition-all shadow-sm group">
+                       <Type size={16} className="text-terracotta group-hover:text-white" /> Gold Foil Print
+                     </button>
                   </div>
                 </div>
 

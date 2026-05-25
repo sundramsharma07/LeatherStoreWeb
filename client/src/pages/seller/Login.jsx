@@ -58,6 +58,14 @@ export default function Login() {
     <div className="min-h-screen bg-[#E5ECE5] flex items-center justify-center p-4 md:p-8 font-sans">
       <div className="w-full max-w-5xl bg-[#FCFBF7] rounded-[1.5rem] border border-[#eae1d8]/40 shadow-[0_30px_70px_rgba(74,80,74,0.12)] overflow-hidden grid md:grid-cols-2 relative">
         
+        <button 
+          type="button"
+          onClick={() => navigate('/')}
+          className="absolute top-4 right-4 md:top-6 md:right-6 z-20 h-10 w-10 bg-black/5 hover:bg-black/10 md:bg-white/10 md:hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-walnut md:text-white transition-all cursor-pointer border border-sand/20 md:border-white/10"
+        >
+          <X size={18} />
+        </button>
+
         <div className="p-8 sm:p-12 md:p-16 flex flex-col justify-center space-y-8">
           <div className="space-y-4">
             <span className="inline-flex items-center gap-1 rounded bg-[#C96A3D]/10 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#C96A3D] border border-[#C96A3D]/20">

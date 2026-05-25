@@ -70,6 +70,14 @@ export default function Login() {
       {/* Outer Card */}
       <div className="w-full max-w-5xl bg-[#14100e]/90 backdrop-blur-2xl rounded-[1.5rem] border border-white/10 shadow-[0_30px_70px_rgba(0,0,0,0.5)] overflow-hidden grid md:grid-cols-2 relative z-10 animate-slide-up">
         
+        <button 
+          type="button"
+          onClick={() => navigate('/')}
+          className="absolute top-4 right-4 md:top-6 md:right-6 z-20 h-10 w-10 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-colors cursor-pointer border border-white/10"
+        >
+          <X size={18} />
+        </button>
+
         {/* Left Side: Form Panel */}
         <div className="p-8 sm:p-12 md:p-16 flex flex-col justify-center space-y-8">
           
@@ -155,15 +163,6 @@ export default function Login() {
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#14100e]/90"></div>
-          
-          {/* Circular Close Button */}
-          <button 
-            type="button"
-            onClick={() => navigate('/')}
-            className="absolute top-6 right-6 h-10 w-10 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-colors cursor-pointer border border-white/10"
-          >
-            <X size={18} />
-          </button>
         </div>
 
       </div>
