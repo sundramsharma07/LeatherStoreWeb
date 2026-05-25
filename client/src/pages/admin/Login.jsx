@@ -147,7 +147,7 @@ export default function Login() {
         {/* Right Side: Premium Workspace Visual */}
         <div className="hidden md:block p-0 relative h-full bg-black">
           <img 
-            src="http://localhost:5173/login_visual.png" 
+            src="/login_visual.png" 
             alt="Admin Secure Visual" 
             className="w-full h-full object-cover min-h-[580px] opacity-70 mix-blend-luminosity"
             onError={(e) => {

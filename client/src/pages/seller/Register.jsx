@@ -43,7 +43,7 @@ export default function Register() {
         
         <div className="hidden md:block p-0 relative h-full">
           <img 
-            src="http://localhost:5173/login_visual.png" 
+            src="/login_visual.png" 
             alt="Luxury Leather Studio Visual" 
             className="w-full h-full object-cover min-h-[580px] scale-x-[-1]"
             onError={(e) => {
