@@ -1217,50 +1217,72 @@ export default function AIDesignStudio() {
                   </div>
                 </div>
 
-                {/* Hardware & Fasteners */}
+                {/* Leather Motifs & Symbols */}
                 <div className="border-2 border-sand/40 rounded-xl p-3 sm:p-4 bg-ivory/10 shadow-sm space-y-3">
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between border-b border-sand/40 pb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-walnut">Hardware & Fasteners</span>
-                    <span className="text-[9px] font-semibold text-terracotta">Click to place hardware</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-walnut">Leather Motifs &amp; Symbols</span>
+                    <span className="text-[9px] font-semibold text-terracotta">Click to stamp on canvas</span>
                   </div>
-                  <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-8 gap-2">
+                  <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2">
                     {[
-                      { name: 'Brass Buckle', symbol: '🧲', font: 'Arial' },
-                      { name: 'Silver Rivet', symbol: '🔘', font: 'Arial' },
-                      { name: 'Gold Stud', symbol: '🔅', font: 'Arial' },
-                      { name: 'Zippers', symbol: '🗜️', font: 'Arial' },
-                      { name: 'D-Ring', symbol: '🔗', font: 'Arial' },
-                      { name: 'Snap Button', symbol: '⏺️', font: 'Arial' },
-                      { name: 'Eyelet', symbol: '⭕', font: 'Arial' },
-                      { name: 'Hook', symbol: '🪝', font: 'Arial' },
-                    ].map(hardware => (
+                      { name: 'Crown', symbol: '♛', font: 'Georgia' },
+                      { name: 'Compass', symbol: '✦', font: 'Georgia' },
+                      { name: 'Anchor', symbol: '⚓', font: 'Arial' },
+                      { name: 'Shield', symbol: '⛨', font: 'Arial' },
+                      { name: 'Fleur', symbol: '⚜', font: 'Arial' },
+                      { name: 'Stag', symbol: '🦌', font: 'Arial' },
+                      { name: 'Eagle', symbol: '🦅', font: 'Arial' },
+                      { name: 'Lion', symbol: '🦁', font: 'Arial' },
+                      { name: 'Leaf', symbol: '🌿', font: 'Arial' },
+                      { name: 'Acorn', symbol: '🌰', font: 'Arial' },
+                      { name: 'Arrow', symbol: '➶', font: 'Georgia' },
+                      { name: 'Star', symbol: '★', font: 'Georgia' },
+                      { name: 'Infinity', symbol: '∞', font: 'Georgia' },
+                      { name: 'Cross', symbol: '✙', font: 'Georgia' },
+                      { name: 'Feather', symbol: '🪶', font: 'Arial' },
+                      { name: 'Tree', symbol: '🌳', font: 'Arial' },
+                    ].map(motif => (
                       <button
-                        key={hardware.name}
-                        onClick={() => addClipart(hardware)}
-                        className="flex flex-col items-center justify-center p-2.5 bg-white border border-sand hover:border-terracotta hover:bg-terracotta/5 rounded-xl transition-all shadow-sm group hover:scale-105"
-                        title={`Add ${hardware.name}`}
+                        key={motif.name}
+                        onClick={() => addClipart(motif)}
+                        className="flex flex-col items-center justify-center p-2 bg-white border border-sand hover:border-terracotta hover:bg-terracotta/5 rounded-xl transition-all shadow-sm group hover:scale-105"
+                        title={`Stamp ${motif.name}`}
                       >
-                        <span className="text-2xl filter drop-shadow-sm group-hover:scale-110 transition-transform">{hardware.symbol}</span>
-                        <span className="text-[7px] font-bold text-walnut/50 uppercase tracking-tight text-center mt-1 truncate w-full">{hardware.name}</span>
+                        <span className="text-xl leading-none filter drop-shadow-sm group-hover:scale-110 transition-transform">{motif.symbol}</span>
+                        <span className="text-[7px] font-bold text-walnut/50 uppercase tracking-tight text-center mt-1 truncate w-full">{motif.name}</span>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                {/* Embossing & Engraving */}
+                {/* Embossing & Engraving Techniques */}
                 <div className="border-2 border-sand/40 rounded-xl p-3 sm:p-4 bg-ivory/10 shadow-sm space-y-3">
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between border-b border-sand/40 pb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-walnut">Embossing & Engraving</span>
-                    <span className="text-[9px] font-semibold text-terracotta">Add debossed text/stamps</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-walnut">Embossing &amp; Engraving</span>
+                    <span className="text-[9px] font-semibold text-terracotta">Select text first, then apply a finish</span>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                     <button onClick={() => { addText(); setTimeout(() => { if (canvas?.getActiveObject()) { canvas.getActiveObject().set({ fill: '#5c3a21', shadow: new window.fabric.Shadow({ color: 'rgba(0,0,0,0.6)', blur: 2, offsetX: 1, offsetY: 1 }) }); canvas.renderAll(); setUpdateTrigger(p => p+1); } }, 100) }} className="flex items-center justify-center gap-2.5 rounded-xl border-2 border-sand px-4 py-3 text-sm font-bold text-walnut hover:bg-walnut hover:text-white hover:border-walnut transition-all shadow-sm group">
-                       <Type size={16} className="text-terracotta group-hover:text-white" /> Deep Emboss Text
-                     </button>
-                     <button onClick={() => { addText(); setTimeout(() => { if (canvas?.getActiveObject()) { canvas.getActiveObject().set({ fill: '#d4af37', shadow: new window.fabric.Shadow({ color: 'rgba(0,0,0,0.3)', blur: 4, offsetX: 2, offsetY: 2 }) }); canvas.renderAll(); setUpdateTrigger(p => p+1); } }, 100) }} className="flex items-center justify-center gap-2.5 rounded-xl border-2 border-sand px-4 py-3 text-sm font-bold text-walnut hover:bg-walnut hover:text-white hover:border-walnut transition-all shadow-sm group">
-                       <Type size={16} className="text-terracotta group-hover:text-white" /> Gold Foil Print
-                     </button>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {[
+                      { label: 'Deep Deboss', desc: 'Pressed', action: () => applyDebossStyle('blind'), icon: '▼', color: 'text-walnut' },
+                      { label: 'Gold Foil', desc: 'Luxury', action: () => applyDebossStyle('gold'), icon: '✦', color: 'text-amber-600' },
+                      { label: 'Silver Foil', desc: 'Metallic', action: () => applyDebossStyle('silver'), icon: '◈', color: 'text-slate-500' },
+                      { label: 'Pyrography', desc: 'Burned', action: () => applyDebossStyle('burned'), icon: '🔥', color: 'text-orange-700' },
+                    ].map(tech => (
+                      <button
+                        key={tech.label}
+                        onClick={() => { if (!activeObject) { addText(); setTimeout(() => tech.action(), 120) } else { tech.action() } }}
+                        className={`flex flex-col items-center justify-center gap-1 rounded-xl border-2 border-sand px-3 py-3 text-xs font-bold text-walnut hover:bg-walnut hover:text-white hover:border-walnut transition-all shadow-sm group ${!activeObject ? 'opacity-80' : ''}`}
+                        title={activeObject ? `Apply ${tech.label}` : `Add text then apply ${tech.label}`}
+                      >
+                        <span className={`text-lg ${tech.color} group-hover:text-white`}>{tech.icon}</span>
+                        <span className="font-bold truncate">{tech.label}</span>
+                        <span className="text-[8px] opacity-60 font-normal">{tech.desc}</span>
+                      </button>
+                    ))}
                   </div>
+                  <p className="text-[9px] text-walnut/40 font-semibold pt-1">
+                    💡 Select any text on the canvas and click a technique to apply. Or click without selection to add new text with the effect.
+                  </p>
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">

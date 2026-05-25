@@ -13,7 +13,9 @@ import {
   X,
   DollarSign,
   User,
-  Package
+  Package,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react'
 
 const links = [
@@ -80,18 +82,20 @@ export default function Sidebar({ isCollapsed = false, onToggleCollapsed }) {
         } md:translate-x-0 transition-[width,transform] duration-300 ease-in-out`}
       >
         {/* Sidebar Header */}
-        <div className={`${isCollapsed ? 'p-6 md:p-4' : 'p-6'} border-b border-sand/30 flex items-center justify-between gap-2`}>
+        <div className={`${isCollapsed ? 'p-4 md:p-3' : 'p-4'} border-b border-sand/30 flex items-center gap-2`}>
+          {/* Desktop collapse/expand toggle — only shows chevron arrow, never hamburger */}
           <button
             type="button"
             onClick={onToggleCollapsed}
-            className={`hidden md:flex ${isCollapsed ? 'h-8 w-8 justify-center rounded-lg bg-walnut text-white shadow-md mx-auto hover:rotate-180' : 'h-7 w-7 justify-center rounded-lg border border-sand/50 bg-white/70 text-walnut/70 hover:bg-sand/15 hover:text-walnut hover:rotate-180'} flex-shrink-0 items-center transition-all duration-300`}
-            title={isCollapsed ? 'Open sidebar' : 'Reduce sidebar'}
-            aria-label={isCollapsed ? 'Open sidebar' : 'Reduce sidebar'}
+            className={`hidden md:flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-sand/50 bg-white/80 text-walnut/60 hover:bg-sand/20 hover:text-walnut transition-all duration-200 ${isCollapsed ? '' : 'mr-1'}`}
+            title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
-            <Menu size={16} />
+            {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
           </button>
-          <NavLink to="/seller/dashboard" className={`flex items-center ${isCollapsed ? 'gap-3 md:hidden' : 'gap-3'} min-w-0 text-walnut group`}>
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-walnut text-white shadow-md transition-transform group-hover:scale-105">
+
+          <NavLink to="/seller/dashboard" className={`flex items-center ${isCollapsed ? 'gap-3 md:hidden' : 'gap-3'} min-w-0 text-walnut group flex-1`}>
+            <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-walnut text-white shadow-md transition-transform group-hover:scale-105">
               <Scissors size={20} className="rotate-90 text-sand" />
             </span>
             <div className={`${isCollapsed ? 'md:hidden' : ''} min-w-0`}>
@@ -101,6 +105,8 @@ export default function Sidebar({ isCollapsed = false, onToggleCollapsed }) {
               </span>
             </div>
           </NavLink>
+
+          {/* Mobile close button */}
           <button
             type="button"
             onClick={() => setIsOpen(false)}
@@ -111,7 +117,7 @@ export default function Sidebar({ isCollapsed = false, onToggleCollapsed }) {
         </div>
 
         {/* Sidebar Links */}
-        <nav className={`${isCollapsed ? 'md:px-3' : 'p-4'} flex-1 p-4 space-y-1.5 overflow-y-auto`}>
+        <nav className={`${isCollapsed ? 'md:px-2' : 'p-4'} flex-1 p-4 space-y-1.5 overflow-y-auto`}>
           {links.map((link) => {
             const Icon = link.icon
             return (
@@ -149,7 +155,7 @@ export default function Sidebar({ isCollapsed = false, onToggleCollapsed }) {
           <button
             type="button"
             onClick={handleLogout}
-            className={`flex w-full items-center ${isCollapsed ? 'md:justify-center md:gap-0 md:px-2' : 'gap-3 px-3'} py-2.5 rounded-xl text-xs font-semibold tracking-wide uppercase text-rose-600 hover:bg-rose-50 transition-colors border border-transparent hover:border-rose-150`}
+            className={`flex w-full items-center ${isCollapsed ? 'md:justify-center md:gap-0 md:px-2' : 'gap-3 px-3'} py-2.5 rounded-xl text-xs font-semibold tracking-wide uppercase text-rose-600 hover:bg-rose-50 transition-colors border border-transparent hover:border-rose-200`}
             title={isCollapsed ? 'Log out' : undefined}
           >
             <LogOut size={16} className="flex-shrink-0" />
